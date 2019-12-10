@@ -12,7 +12,7 @@ class ViewController: UIViewController
 {
     let tableView = UITableView()
     var safeArea: UILayoutGuide!
-    var characters = ["Link", "Zelda", "Ganondorf", "Midna"]
+    var characters = ["Link", "Zelda", "Ganondorf", "Midna", "Loyola"]
     override func loadView()
     {
         super.loadView()
