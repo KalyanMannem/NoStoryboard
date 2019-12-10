@@ -12,7 +12,9 @@ class ViewController: UIViewController
 {
     let tableView = UITableView()
     var safeArea: UILayoutGuide!
-    var characters = ["Link", "Zelda", "Ganondorf", "Midna", "Loyola"]
+    let queryService = QueryService()
+
+    var results: [Row] = []
     override func loadView()
     {
         super.loadView()
@@ -24,6 +26,12 @@ class ViewController: UIViewController
     {
         super.viewDidLoad()
         tableView.dataSource = self
+        queryService.getResults { [weak self](results, title, errorMessage) in
+            if let res = results{
+                self?.results = res
+                self?.tableView.reloadData()
+            }
+        }
     }
     
     func setUpTableView()
@@ -43,13 +51,14 @@ extension ViewController: UITableViewDataSource
 {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return characters.count
+        return results.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = characters[indexPath.row]
+        let row = results[indexPath.row]
+        cell.textLabel?.text = row.title
         return cell
     }
 }
